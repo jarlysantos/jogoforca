@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function jogarForca() {
+      const palavras = [
+        "computador", "casa", "morango", "flor", "quadro",
+        "comida", "teclado", "trabalho", "cachorro", "telefone",
+        "janela", "chuva", "bicicleta", "peixe", "livro",
+        "cadeira", "ventilador", "panela", "caderno", "brasil"
+      ];
+
+      let jogarNovamente = true;
+
+      while (jogarNovamente) {
+        const palavraSecreta = palavras[Math.floor(Math.random() * palavras.length)];
+        const letrasDescobertas = Array(palavraSecreta.length).fill("_");
+        const letrasUsadas = [];
+        let erros = 0;
+        const maxErros = 6;
+
+        while (erros < maxErros && letrasDescobertas.includes("_")) {
+          let estado = letrasDescobertas.join(" ");
+          let tentativa = prompt(
+            `Palavra: ${estado}\nErros: ${erros}/${maxErros}\nLetras usadas: ${letrasUsadas.join(", ")}\nDigite uma letra:`
+          );
+
+          if (!tentativa) {
+            alert("Jogo encerrado pelo usuário.");
+            return;
+          }
+
+          tentativa = tentativa.toLowerCase();
+
+          if (tentativa.length !== 1 || !tentativa.match(/[a-zçáéíóúãõâêôà]/i)) {
+            alert("Digite apenas UMA letra válida.");
+            continue;
+          }
+
+          if (letrasUsadas.includes(tentativa)) {
+            alert("Você já tentou essa letra.");
+            continue;
+          }
+
+          letrasUsadas.push(tentativa);
+
+          if (palavraSecreta.includes(tentativa)) {
+            for (let i = 0; i < palavraSecreta.length; i++) {
+              if (palavraSecreta[i] === tentativa) {
+                letrasDescobertas[i] = tentativa;
+              }
+            }
+          } else {
+            erros++;
+          }
+        }
+
+        if (!letrasDescobertas.includes("_")) {
+          alert(`Parabéns! Você acertou a palavra: ${palavraSecreta}`);
+        } else {
+          alert(`Você perdeu! A palavra era: ${palavraSecreta}`);
+        }
+
+        jogarNovamente = confirm("Deseja jogar novamente?");
+      }
+
+      alert("Obrigado por jogar!");
+    }
+
+    jogarForca();
+    </script>
+    
+</body>
+</html>
